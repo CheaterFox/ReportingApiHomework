@@ -1,5 +1,6 @@
 package com.example.guardian.services.concretes;
 
+import com.example.guardian.constants.ApiPathValues;
 import com.example.guardian.constants.RestURLs;
 import com.example.guardian.converters.TransactionListConverter;
 import com.example.guardian.dto.TransactionListDto;
@@ -27,14 +28,17 @@ public class TransactionListServiceImpl implements TransactionListService {
         this.tokenService = tokenService;
         this.transactionListConverter = transactionListConverter;
     }
-
-    public TransactionListResponse queryTransactionList(TransactionListDto transactionListDto) {
-
+    @Override
+    public TransactionListResponse  queryTransactionList(TransactionListDto transactionListDto, Optional<Integer> page) {
         final RestTemplate restTemplate = new RestTemplate();
         final HttpHeaders headers = new HttpHeaders();
         final String token = tokenService.getToken();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", token);
+        final String LocalTransactionListURL = ApiPathValues.LOCAL_API + ApiPathValues.REQUEST_BASE + "/" + ApiPathValues.TRANSACTION_LIST;
+        if(transactionListDto.getPage() == null && page.isPresent()) {
+            transactionListDto.setPage(page.get());
+        }
         final HttpEntity<TransactionListRequestBody> transactionListRequestBody =
                 new HttpEntity<>(
                         new TransactionListRequestBody(
@@ -54,7 +58,17 @@ public class TransactionListServiceImpl implements TransactionListService {
         final TransactionList transactionList = Optional.ofNullable(transactionListResponseEntity.getBody())
                 .orElseGet(TransactionList::new);
         final TransactionListResponse transactionListResponse = transactionListConverter.convertTransactionList(transactionList);
-
+        if(transactionListResponse.getNext_page_url() != null) {
+            transactionListResponse.setNext_page_url(
+                    LocalTransactionListURL + transactionListResponse.getNext_page_url().substring(
+                            transactionListResponse.getNext_page_url().indexOf("?")));
+        }
+        if (transactionListResponse.getPrev_page_url() != null) {
+            transactionListResponse.setPrev_page_url(
+                    LocalTransactionListURL + transactionListResponse.getPrev_page_url().substring(
+                            transactionListResponse.getPrev_page_url().indexOf("?")
+                    ));
+        }
         logger.info("Transaction List consumed successfully");
         return transactionListResponse;
     }

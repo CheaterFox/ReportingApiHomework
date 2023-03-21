@@ -22,8 +22,8 @@ public class TransactionListController {
     }
 
     @GetMapping("/" + ApiPathValues.TRANSACTION_LIST)
-    public ResponseEntity<TransactionListResource> queryTransactionList(@RequestBody TransactionListDto transactionListDto) {
-        TransactionListResponse transactionListResponse = transactionListService.queryTransactionList(transactionListDto);
+    public ResponseEntity<TransactionListResource>  queryTransactionList(@RequestBody TransactionListDto transactionListDto, @RequestParam Optional<Integer> page){
+        TransactionListResponse transactionListResponse = transactionListService. queryTransactionList(transactionListDto, page);
         return  ResponseEntity.status(HttpStatus.OK).body(new TransactionListResource(transactionListResponse));
     }
 }

@@ -6,7 +6,5 @@ import com.example.guardian.resources.TransactionListResponse;
 import java.util.Optional;
 
 public interface TransactionListService {
-
-    TransactionListResponse queryTransactionList(TransactionListDto transactionListDto);
-
+    TransactionListResponse  queryTransactionList(TransactionListDto transactionListDto, Optional<Integer> page);
 }
