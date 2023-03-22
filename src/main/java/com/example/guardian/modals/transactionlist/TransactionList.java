@@ -1,11 +1,10 @@
 package com.example.guardian.modals.transactionlist;
 
+import com.example.guardian.modals.transaction.TransactionModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -20,6 +19,6 @@ public class TransactionList {
     private int to;
 
     @JsonProperty("data")
-    private List<HashMap<String,JsonNode>> data;
+    private List<TransactionModel> data;
 }
 

@@ -1,8 +1,9 @@
 package com.example.guardian.resources;
 
 import com.example.guardian.modals.acquirer.AcquirerModel;
-import com.example.guardian.modals.client.Client;
+import com.example.guardian.modals.client.CustomerInfoModel;
 import com.example.guardian.modals.fx.FxModel;
+import com.example.guardian.modals.ipn.IpnModel;
 import com.example.guardian.modals.merchant.MerchantModel;
 import com.example.guardian.modals.transactiondetail.TransactionDetailModel;
 import lombok.Data;
@@ -17,7 +18,12 @@ public class TransactionResponse implements Serializable {
 
     private FxModel fx;
 
-    private Client client;
+    private String updated_at;
+    private String created_at;
+
+    private Boolean refundable;
+
+    private CustomerInfoModel customerInfo;
 
     private AcquirerModel acquirer;
 
@@ -25,22 +31,32 @@ public class TransactionResponse implements Serializable {
 
     private TransactionDetailModel transactionDetail;
 
-    public TransactionResponse(FxModel fxModel, Client client, AcquirerModel acquirerModel, MerchantModel merchantModel, TransactionDetailModel transactionDetailModel) {
-        this.fx = fxModel;
-        this.client = client;
-        this.acquirer = acquirerModel;
-        this.merchant = merchantModel;
-        this.transactionDetail = transactionDetailModel;
+    private IpnModel ipn;
+
+    public TransactionResponse(FxModel fx, String updated_at, String created_at, Boolean refundable, CustomerInfoModel customerInfo, AcquirerModel acquirer, MerchantModel merchant, TransactionDetailModel transactionDetail, IpnModel ipn) {
+        this.fx = fx;
+        this.updated_at = updated_at;
+        this.created_at = created_at;
+        this.refundable = refundable;
+        this.customerInfo = customerInfo;
+        this.acquirer = acquirer;
+        this.merchant = merchant;
+        this.transactionDetail = transactionDetail;
+        this.ipn = ipn;
     }
 
     @Override
     public String toString() {
         return "TransactionResponse{" +
                 "fx=" + fx +
-                ", client=" + client +
+                ", updated_at='" + updated_at + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", refundable=" + refundable +
+                ", customerInfo=" + customerInfo +
                 ", acquirer=" + acquirer +
                 ", merchant=" + merchant +
                 ", transactionDetail=" + transactionDetail +
+                ", ipn=" + ipn +
                 '}';
     }
 }

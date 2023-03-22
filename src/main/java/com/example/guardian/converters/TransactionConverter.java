@@ -9,10 +9,14 @@ public class TransactionConverter {
     public TransactionResponse convertTransaction(final TransactionModel transactionModel) {
         TransactionResponse transactionResponse = new TransactionResponse(
                 transactionModel.getFx(),
-                transactionModel.getClient(),
+                transactionModel.getUpdated_at(),
+                transactionModel.getCreated_at(),
+                transactionModel.getRefundable(),
+                transactionModel.getCustomerInfo(),
                 transactionModel.getAcquirer(),
                 transactionModel.getMerchant(),
-                transactionModel.getTransactionDetail()
+                transactionModel.getTransactionDetail(),
+                transactionModel.getIpn()
         );
 
         return transactionResponse;

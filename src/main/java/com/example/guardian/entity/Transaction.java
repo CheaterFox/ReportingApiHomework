@@ -16,10 +16,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private String id;
-
-    @OneToOne
-    @JoinColumn(name = "fx_id")
-    private Fx fx;
+    private String updated_at;
+    private String created_at;
+    private Boolean refundable;
 
     @ManyToOne
     @JoinColumn(name = "customer_ınfo_id")
@@ -32,9 +31,4 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
-
-    @OneToOne
-    @JoinColumn(name = "merchant_transaction_id")
-    private MerchantTransaction merchantTransaction;
-
 }
